@@ -8,15 +8,13 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
-{
+class HomeController extends Controller {
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth');
     }
 
@@ -25,8 +23,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
+    public function index() {
         $user = User::where('id', auth()->id())->select([
             'id', 'name', 'email',
         ])->first();
@@ -36,15 +33,20 @@ class HomeController extends Controller
         ]);
     }
 
-    public function messages(): JsonResponse
-    {
+    public function users(): JsonResponse {
+        $users = User::all();
+        return response()->json($users);
+    }
+
+    public function messages(): JsonResponse {
+        //dd("here 1");
         $messages = Message::with('user')->get()->append('time');
 
         return response()->json($messages);
     }
 
-    public function message(Request $request): JsonResponse
-    {
+    public function message(Request $request): JsonResponse {
+        //dd("here 2");
         $message = Message::create([
             'user_id' => auth()->id(),
             'text' => $request->get('text'),

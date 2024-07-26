@@ -1,13 +1,33 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const MessageInput = ({ rootUrl }) => {
     const [message, setMessage] = useState("");
+    const [userIds, setUserIds] = useState([]);
+    const [selectedUserId, setSelectedUserId] = useState("");
 
-    const messageRequest = async (text) => {
+    useEffect(() => {
+        // Fetch user IDs from the server when the component mounts
+        const fetchUserIds = async () => {
+            try {
+                const response = await axios.get(`${rootUrl}/users`);
+                const names = response.data.map(item => item.name);
+                const ids = response.data.map(item => item.id);
+                //console.log("response names:", names);
+                setUserIds(ids);
+            } catch (err) {
+                console.log("error:",err.message);
+            }
+        };
+
+        fetchUserIds();
+    }, [rootUrl]);
+
+    const messageRequest = async (text, userId) => {
         try {
             await axios.post(`${rootUrl}/message`, {
                 text,
+                userId,
             });
         } catch (err) {
             console.log(err.message);
@@ -21,23 +41,47 @@ const MessageInput = ({ rootUrl }) => {
             return;
         }
 
-        messageRequest(message);
+        if (selectedUserId.trim() === "") {
+            alert("Please select a user!");
+            return;
+        }
+
+        messageRequest(message, selectedUserId);
         setMessage("");
     };
 
     return (
         <div className="input-group">
-            <input onChange={(e) => setMessage(e.target.value)}
-                   autoComplete="off"
-                   type="text"
-                   className="form-control"
-                   placeholder="Message..."
-                   value={message}
+            <select
+                className="form-control"
+                value={selectedUserId}
+                onChange={(e) => setSelectedUserId(e.target.value)}
+            >
+                <option value="" disabled>
+                    Select user...
+                </option>
+                {userIds.map((userId) => (
+                    <option key={userId} value={userId}>
+                        {userId}
+                    </option>
+                ))}
+            </select>
+            <input
+                onChange={(e) => setMessage(e.target.value)}
+                autoComplete="off"
+                type="text"
+                className="form-control"
+                placeholder="Message..."
+                value={message}
             />
             <div className="input-group-append">
-                <button onClick={(e) => sendMessage(e)}
-                        className="btn btn-primary"
-                        type="button">Send</button>
+                <button
+                    onClick={(e) => sendMessage(e)}
+                    className="btn btn-primary"
+                    type="button"
+                >
+                    Send
+                </button>
             </div>
         </div>
     );

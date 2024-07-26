@@ -8,7 +8,7 @@ const Message = ({ userId, message }) => {
                 <small className="text-muted float-right">
                     {message.time}
                 </small>
-                <small className="text-muted">{message.name}</small>
+                <small className="text-muted">{message.name} - user ID: {message.user_id}</small>
                 <div className={`alert alert-${userId === message.user_id ? "primary" : "secondary"}`} role="alert">
                     {message.text}
                 </div>
