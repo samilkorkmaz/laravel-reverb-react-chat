@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const MessageInput = ({ rootUrl }) => {
+const MessageInput = ({ rootUrl, currentUserId }) => {
     const [message, setMessage] = useState("");
-    const [userIds, setUserIds] = useState([]);
+    const [users, setUsers] = useState([]);
     const [selectedUserId, setSelectedUserId] = useState("");
 
     useEffect(() => {
-        // Fetch user IDs from the server when the component mounts
-        const fetchUserIds = async () => {
+        // Fetch users from the server when the component mounts
+        const fetchUsers = async () => {
             try {
                 const response = await axios.get(`${rootUrl}/users`);
-                const ids = response.data.map(item => item.id);
-                setUserIds(ids);
+                // Filter out the current user
+                const filteredUsers = response.data.filter(user => user.id !== currentUserId);
+                setUsers(filteredUsers);
             } catch (err) {
-                console.log("error:",err.message);
+                console.log("error:", err.message);
             }
         };
 
-        fetchUserIds();
-    }, [rootUrl]);
+        fetchUsers();
+    }, [rootUrl, currentUserId]);
 
     const messageRequest = async (text, to_id) => {
         try {
@@ -58,9 +59,9 @@ const MessageInput = ({ rootUrl }) => {
                 <option value="" disabled>
                     Select user...
                 </option>
-                {userIds.map((userId) => (
-                    <option key={userId} value={userId}>
-                        {userId}
+                {users.map((user) => (
+                    <option key={user.id} value={user.id}>
+                        {user.name} ({user.id})
                     </option>
                 ))}
             </select>

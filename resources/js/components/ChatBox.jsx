@@ -60,7 +60,7 @@ const ChatBox = ({ rootUrl }) => {
                         <span ref={scroll}></span>
                     </div>
                     <div className="card-footer">
-                        <MessageInput rootUrl={rootUrl} />
+                        <MessageInput rootUrl={rootUrl} currentUserId={user.id} />
                     </div>
                 </div>
             </div>

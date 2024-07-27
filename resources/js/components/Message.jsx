@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 
 const Message = ({ userId, message }) => {
 
@@ -7,8 +7,8 @@ const Message = ({ userId, message }) => {
         console.log("message", message);
     }, [message]);
 
-    // Only render the message if the to_id matches the userId
-    if (message.to_id !== userId) {
+    // Only render the message if the id or to_id matches the userId
+    if (message.id !== userId && message.to_id !== userId) {
         return null;
     }
 
@@ -18,7 +18,9 @@ const Message = ({ userId, message }) => {
                 <small className="text-muted float-right">
                     {message.time}
                 </small>
-                <small className="text-muted">{message.name} - user ID: {message.user_id} - name: {message.user.name}</small>
+                {userId !== message.user_id && (
+                    <small className="text-muted">{message.name} - user ID: {message.user_id} - name: {message.user.name}</small>
+                )}
                 <div className={`alert alert-${userId === message.user_id ? "primary" : "secondary"}`} role="alert">
                     {message.text}
                 </div>
