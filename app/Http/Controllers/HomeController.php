@@ -39,16 +39,15 @@ class HomeController extends Controller {
     }
 
     public function messages(): JsonResponse {
-        //dd("here 1");
         $messages = Message::with('user')->get()->append('time');
 
         return response()->json($messages);
     }
 
     public function message(Request $request): JsonResponse {
-        //dd("here 2");
         $message = Message::create([
             'user_id' => auth()->id(),
+            'to_id' => $request->get('to_id'),
             'text' => $request->get('text'),
         ]);
 

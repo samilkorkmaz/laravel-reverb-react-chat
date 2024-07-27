@@ -11,9 +11,7 @@ const MessageInput = ({ rootUrl }) => {
         const fetchUserIds = async () => {
             try {
                 const response = await axios.get(`${rootUrl}/users`);
-                const names = response.data.map(item => item.name);
                 const ids = response.data.map(item => item.id);
-                //console.log("response names:", names);
                 setUserIds(ids);
             } catch (err) {
                 console.log("error:",err.message);
@@ -23,11 +21,11 @@ const MessageInput = ({ rootUrl }) => {
         fetchUserIds();
     }, [rootUrl]);
 
-    const messageRequest = async (text, userId) => {
+    const messageRequest = async (text, to_id) => {
         try {
             await axios.post(`${rootUrl}/message`, {
                 text,
-                userId,
+                to_id,
             });
         } catch (err) {
             console.log(err.message);
