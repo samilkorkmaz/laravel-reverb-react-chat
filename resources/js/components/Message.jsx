@@ -18,9 +18,12 @@ const Message = ({ userId, message }) => {
                 <small className="text-muted float-right">
                     {message.time}
                 </small>
-                {userId !== message.user_id && (
-                    <small className="text-muted">{message.name} - {message.user.name} ({message.user_id})</small>
+                {userId === message.user_id ? (
+                    <small className="text-muted"> - to {message.to_id}</small>
+                ) : (
+                    <small className="text-muted"> - {message.user.name} ({message.user_id})</small>
                 )}
+
                 <div className={`alert alert-${userId === message.user_id ? "primary" : "secondary"}`} role="alert">
                     {message.text}
                 </div>
