@@ -7,8 +7,8 @@ const Message = ({ userId, message }) => {
         console.log("message", message);
     }, [message]);
 
-    // Only render the message if the id or to_id matches the userId
-    if (message.id !== userId && message.to_id !== userId) {
+    // Only render the message if the user_id or to_id matches the userId
+    if (message.user_id !== userId && message.to_id !== userId) {
         return null;
     }
 
