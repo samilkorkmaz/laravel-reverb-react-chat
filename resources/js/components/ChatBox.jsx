@@ -8,8 +8,9 @@ const ChatBox = ({ rootUrl }) => {
         .getAttribute('data-user');
 
     const user = JSON.parse(userData);
-    // `App.Models.User.${user.id}`;
-    const webSocketChannel = `channel_for_everyone`;
+
+    const webSocketChannel = `App.Models.User.${user.id}`;
+    //const webSocketChannel = `channel_for_everyone`;
 
     const [messages, setMessages] = useState([]);
     const scroll = useRef();

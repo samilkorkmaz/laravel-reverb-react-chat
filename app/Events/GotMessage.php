@@ -32,8 +32,8 @@ class GotMessage implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            // new PrivateChannel("App.Models.User.{$this->message['user_id']}"),
-            new PrivateChannel("channel_for_everyone"),
+            new PrivateChannel("App.Models.User.{$this->message['user_id']}"),
+            //new PrivateChannel("channel_for_everyone"),
         ];
     }
 }
