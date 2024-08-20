@@ -10,9 +10,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/proceed', function () {
-    return view('proceed');
-})->name('proceed');
+Route::get('/proceed', [HomeController::class, 'proceed'])->name('proceed');
 
 Route::get('/chat', [HomeController::class, 'index'])->name('chat');
 Route::get('/users', [HomeController::class, 'users'])->name('users');

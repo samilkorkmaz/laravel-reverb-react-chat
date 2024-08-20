@@ -1,18 +1,22 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import Message from "./Message.jsx";
 import MessageInput from "./MessageInput.jsx";
 
 const ChatBox = ({ rootUrl }) => {
-    const userData = document.getElementById('main')
-        .getAttribute('data-user');
+    const mainElement = document.getElementById('main');
 
+    // Extract user data from the DOM element
+    const userData = mainElement.getAttribute('data-user');
     const user = JSON.parse(userData);
+
+    // Extract messages data from the DOM element
+    const messagesData = mainElement.getAttribute('data-messages');
+    const initialMessages = JSON.parse(messagesData);
 
     const webSocketChannel = `App.Models.User.${user.id}`;
     //const webSocketChannel = `channel_for_everyone`;
 
-    const [messages, setMessages] = useState([]);
+    const [messages, setMessages] = useState(initialMessages); // Initialize with messages passed from the view
     const scroll = useRef();
 
     const scrollToBottom = () => {
@@ -21,25 +25,16 @@ const ChatBox = ({ rootUrl }) => {
 
     const connectWebSocket = () => {
         window.Echo.private(webSocketChannel)
-            .listen('GotMessage', async (e) => {
-                // e.message
-                await getMessages();
+            .listen('GotMessage', (e) => {
+                // Append the new message to the state
+                setMessages(prevMessages => [...prevMessages, e.message]);
+                setTimeout(scrollToBottom, 0);
             });
     }
 
-    const getMessages = async () => {
-        try {
-            const m = await axios.get(`${rootUrl}/messages`);
-            setMessages(m.data);
-            setTimeout(scrollToBottom, 0);
-        } catch (err) {
-            console.log(err.message);
-        }
-    };
-
     useEffect(() => {
-        getMessages();
         connectWebSocket();
+        scrollToBottom();
 
         return () => {
             window.Echo.leave(webSocketChannel);
