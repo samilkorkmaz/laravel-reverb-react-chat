@@ -3,15 +3,18 @@ import Message from "./Message.jsx";
 import MessageInput from "./MessageInput.jsx";
 
 const ChatBox = ({ rootUrl }) => {
+    console.log("ChatBox");
     const mainElement = document.getElementById('main');
 
     // Extract user data from the DOM element
     const userData = mainElement.getAttribute('data-user');
     const user = JSON.parse(userData);
+    console.log(user);
 
     // Extract messages data from the DOM element
     const messagesData = mainElement.getAttribute('data-messages');
     const initialMessages = JSON.parse(messagesData);
+    console.log(initialMessages);
 
     const webSocketChannel = `App.Models.User.${user.id}`;
     //const webSocketChannel = `channel_for_everyone`;
@@ -19,11 +22,15 @@ const ChatBox = ({ rootUrl }) => {
     const [messages, setMessages] = useState(initialMessages); // Initialize with messages passed from the view
     const scroll = useRef();
 
+    console.log("1");
     const scrollToBottom = () => {
+        console.log("scrollToBottom");
         scroll.current.scrollIntoView({ behavior: "smooth" });
     };
+    console.log("2");
 
     const connectWebSocket = () => {
+        console.log("connectWebSocket");
         window.Echo.private(webSocketChannel)
             .listen('GotMessage', (e) => {
                 // Append the new message to the state
@@ -31,8 +38,10 @@ const ChatBox = ({ rootUrl }) => {
                 setTimeout(scrollToBottom, 0);
             });
     }
+    console.log("3");
 
     useEffect(() => {
+        console.log("useEffect");
         connectWebSocket();
         scrollToBottom();
 
@@ -40,6 +49,7 @@ const ChatBox = ({ rootUrl }) => {
             window.Echo.leave(webSocketChannel);
         }
     }, []);
+    console.log("4");
 
     return (
         <div className="row justify-content-center">
