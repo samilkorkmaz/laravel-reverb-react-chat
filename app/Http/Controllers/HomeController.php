@@ -28,11 +28,11 @@ class HomeController extends Controller {
         // Get the logged-in user ID
         $currentUserId = Auth::id();
 
+        // Fetch the user
+        $user = User::find($currentUserId);
+
         // Get the user ID from the query parameter
         $selectedUserId = $request->query('user_id'); // e.g. http://127.0.0.1:8000/chat?user_id=2
-
-        // Fetch the selected user
-        $user = User::find($selectedUserId);
 
         // Fetch messages between the logged-in user and the selected user
         $messages = Message::where(function($query) use ($currentUserId, $selectedUserId) {
