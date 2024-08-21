@@ -58,8 +58,7 @@ const ChatBox = ({ rootUrl }) => {
                             //console.log(`user.name: ${user.name}`);
                             return (
                                 <Message key={message.id}
-                                         userId={user.id}
-                                         userName={user.name}
+                                         currentUserId={user.id}
                                          message={message}
                                 />
                             );

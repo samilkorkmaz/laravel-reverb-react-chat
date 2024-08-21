@@ -26,7 +26,7 @@
                 return;
             }
 
-            window.location.href = "{{ url('/chat') }}?user_id=" + selectedUserId;
+            window.location.href = "{{ url('/chat') }}?selected_user_id=" + selectedUserId;
         });
     </script>
 @endsection

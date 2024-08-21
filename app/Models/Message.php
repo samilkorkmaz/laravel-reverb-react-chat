@@ -19,9 +19,13 @@ class Message extends Model
         'text',
     ];
 
-    public function user(): BelongsTo
+    public function sender(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function recipient(): BelongsTo {
+        return $this->belongsTo(User::class, 'to_id');
     }
 
     public function getTimeAttribute(): string
