@@ -22,11 +22,6 @@ const MessageInput = ({ rootUrl, selectedUserId }) => {
             return;
         }
 
-        if (!selectedUserId) {
-            alert("Please select a user!");
-            return;
-        }
-
         messageRequest(message, selectedUserId);
         setMessage("");
     };

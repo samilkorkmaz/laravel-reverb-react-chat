@@ -31,7 +31,7 @@ class SendMessage implements ShouldQueue
             'id' => $this->message->id,
             'user_id' => $this->message->user_id,
             'text' => $this->message->text,
-            'time' => $this->message->time,
+            'time' => $this->message->time, // calls app/Models/Message.php, getTimeAttribute Laravel accessor method
         ]);
     }
 }

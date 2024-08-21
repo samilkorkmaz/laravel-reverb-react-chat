@@ -26,30 +26,29 @@ class HomeController extends Controller {
      */
     public function index(Request $request) {
         // Get the logged-in user ID
-        $currentUserId = Auth::id();
+        $logedInUserId = Auth::id();
 
-        // Fetch the user
-        $user = User::find($currentUserId);
+        // Fetch the current logged in user
+        $loggedInUser = User::find($logedInUserId);
 
         // Get the user ID from the query parameter
         $selectedUserId = $request->query('selected_user_id'); // e.g. http://127.0.0.1:8000/chat?selected_user_id=2
+        $selectedUser = User::find($selectedUserId);
 
         // Fetch messages between the logged-in user and the selected user
-        $messages = Message::where(function($query) use ($currentUserId, $selectedUserId) {
-            $query->where('user_id', $currentUserId)
+        $messages = Message::where(function($query) use ($logedInUserId, $selectedUserId) {
+            $query->where('user_id', $logedInUserId)
                 ->where('to_id', $selectedUserId);
         })
-            ->orWhere(function($query) use ($currentUserId, $selectedUserId) {
+            ->orWhere(function($query) use ($logedInUserId, $selectedUserId) {
                 $query->where('user_id', $selectedUserId)
-                    ->where('to_id', $currentUserId);
+                    ->where('to_id', $logedInUserId);
             })
             ->with(['sender', 'recipient']) // Eager load both sender and recipient relationships
             ->get();
 
-
-
         // Pass the messages to the view
-        return view('home', compact('user', 'messages'));
+        return view('home', compact('loggedInUser', 'selectedUser', 'messages'));
     }
 
     public function proceed() {

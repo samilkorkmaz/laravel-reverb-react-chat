@@ -9,7 +9,9 @@ if (document.getElementById('main')) {
 
     ReactDOM.createRoot(document.getElementById('main')).render(
         <React.StrictMode>
-            <ChatBox rootUrl={rootUrl} />
+            <ChatBox
+                rootUrl={rootUrl}
+            />
         </React.StrictMode>
     );
 }
