@@ -11,8 +11,12 @@ const ChatBox = ({ rootUrl }) => {
     const receivingUser = JSON.parse(mainElement.getAttribute('data-selectedUser'));
     const initialMessages = JSON.parse(mainElement.getAttribute('data-messages'));
 
-    //const webSocketChannel = `App.Models.User.${loggedInUser.id}`;
-    const webSocketChannel = `channel_for_everyone`;
+
+    //const webSocketChannel = `channel_for_everyone`;
+    const userIds = [sendingUser.id, receivingUser.id];
+    userIds.sort();
+    const webSocketChannel =  `channelBetweenUsers.${userIds[0]}.${userIds[1]}`;
+    //console.log(`ChatBox.jsx webSocketChannel: ${webSocketChannel}`);
 
     const [messages, setMessages] = useState(initialMessages); // Initialize with messages passed from the view
     const scroll = useRef();

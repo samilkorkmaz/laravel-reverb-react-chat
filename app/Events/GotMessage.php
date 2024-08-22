@@ -9,6 +9,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class GotMessage implements ShouldBroadcast
 {
@@ -31,19 +32,20 @@ class GotMessage implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
-        /*// Sort user IDs to ensure consistent channel name regardless of sender/receiver order
+        // Sort user IDs to ensure consistent channel name regardless of sender/receiver order
         $user_ids = [
             $this->message['user_id'],
             $this->message['to_id'],
         ];
         sort($user_ids);
+        $webSocketChannel = "channelBetweenUsers.{$user_ids[0]}.{$user_ids[1]}";
+        //Log::info("webSocketChannel: {$webSocketChannel}");
 
         return [
-            new PrivateChannel("users.{$user_ids[0]}.{$user_ids[1]}"),
-        ];*/
-        return [
-            //new PrivateChannel("App.Models.User.{$this->message['user_id']}"),
-            new PrivateChannel("channel_for_everyone"),
+            new PrivateChannel($webSocketChannel),
         ];
+        /*return [
+            new PrivateChannel("channel_for_everyone"),
+        ];*/
     }
 }
