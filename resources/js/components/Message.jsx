@@ -15,9 +15,9 @@ const Message = ({ loggedInUserId, message }) => {
         date = new Date(message.time);
         message.sender = {}; // Create field
         message.sender.id = message.user_id;
-        message.sender.name = "dummy"; // TODO
+        message.sender.name = message.senderName;
         message.recipient = {}; // Create field
-        message.recipient.name = "dummy"; // TODO
+        message.recipient.name = message.receiverName;
     } else {
         //console.log("existing message:", message.updated_at);
         date = new Date(message.updated_at);
