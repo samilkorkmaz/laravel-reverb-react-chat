@@ -31,9 +31,19 @@ class GotMessage implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
+        /*// Sort user IDs to ensure consistent channel name regardless of sender/receiver order
+        $user_ids = [
+            $this->message['user_id'],
+            $this->message['to_id'],
+        ];
+        sort($user_ids);
+
         return [
-            new PrivateChannel("App.Models.User.{$this->message['user_id']}"),
-            //new PrivateChannel("channel_for_everyone"),
+            new PrivateChannel("users.{$user_ids[0]}.{$user_ids[1]}"),
+        ];*/
+        return [
+            //new PrivateChannel("App.Models.User.{$this->message['user_id']}"),
+            new PrivateChannel("channel_for_everyone"),
         ];
     }
 }

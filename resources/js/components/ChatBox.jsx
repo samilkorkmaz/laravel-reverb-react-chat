@@ -6,19 +6,13 @@ const ChatBox = ({ rootUrl }) => {
     //console.log("ChatBox");
     const mainElement = document.getElementById('main');
 
-    // Extract user data from the DOM element
-    const loggedInUserData = mainElement.getAttribute('data-loggedInUser');
-    const loggedInUser = JSON.parse(loggedInUserData);
+    // Extract data from the DOM elements
+    const sendingUser = JSON.parse(mainElement.getAttribute('data-loggedInUser'));
+    const receivingUser = JSON.parse(mainElement.getAttribute('data-selectedUser'));
+    const initialMessages = JSON.parse(mainElement.getAttribute('data-messages'));
 
-    const selectedUserData = mainElement.getAttribute('data-selectedUser');
-    const selectedUser = JSON.parse(selectedUserData);
-
-    // Extract messages data from the DOM element
-    const messagesData = mainElement.getAttribute('data-messages');
-    const initialMessages = JSON.parse(messagesData);
-
-    const webSocketChannel = `App.Models.User.${loggedInUser.id}`;
-    //const webSocketChannel = `channel_for_everyone`;
+    //const webSocketChannel = `App.Models.User.${loggedInUser.id}`;
+    const webSocketChannel = `channel_for_everyone`;
 
     const [messages, setMessages] = useState(initialMessages); // Initialize with messages passed from the view
     const scroll = useRef();
@@ -34,6 +28,7 @@ const ChatBox = ({ rootUrl }) => {
         //console.log("connectWebSocket");
         window.Echo.private(webSocketChannel)
             .listen('GotMessage', (e) => {
+                //console.log("GotMessage");
                 // Append the new message to the state
                 setMessages(prevMessages => [...prevMessages, e.message]);
                 setTimeout(scrollToBottom, 0);
@@ -54,14 +49,14 @@ const ChatBox = ({ rootUrl }) => {
         <div className="row justify-content-center">
             <div className="col-md-8">
                 <div className="card">
-                    <div className="card-header">Chat between {loggedInUser.name} and {selectedUser.name}</div>
+                    <div className="card-header">Chat between {sendingUser.name} and {receivingUser.name}</div>
                     <div className="card-body" style={{height: "500px", overflowY: "auto"}}>
                         {messages?.map((message, index) => {
                             //console.log(`Rendering message ${index + 1}:`, message);
                             //console.log(`user.name: ${user.name}`);
                             return (
                                 <Message key={message.id}
-                                         loggedInUserId={loggedInUser.id}
+                                         loggedInUserId={sendingUser.id}
                                          message={message}
                                 />
                             );
@@ -71,7 +66,7 @@ const ChatBox = ({ rootUrl }) => {
                     <div className="card-footer">
                         <MessageInput
                             rootUrl={rootUrl}
-                            selectedUserId={selectedUser.id} />
+                            selectedUserId={receivingUser.id} />
                     </div>
                 </div>
             </div>
