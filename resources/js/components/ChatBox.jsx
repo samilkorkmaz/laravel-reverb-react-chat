@@ -8,7 +8,7 @@ const ChatBox = ({ rootUrl }) => {
 
     // Extract data from the DOM elements
     const sendingUser = JSON.parse(mainElement.getAttribute('data-loggedInUser'));
-    const receivingUser = JSON.parse(mainElement.getAttribute('data-selectedUser'));
+    const receivingUser = JSON.parse(mainElement.getAttribute('data-selectedReceiver'));
     const initialMessages = JSON.parse(mainElement.getAttribute('data-messages'));
 
 

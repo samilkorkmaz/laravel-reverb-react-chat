@@ -66,13 +66,13 @@
                                     </form>
                                 </div>
                             </li>
-                            @if(isset($selectedUser))
+                            @if(isset($selectedReceiver))
                                 <li class="nav-item dropdown">
                                     <div class="form-group">
-                                        <select id="userSelect" class="form-control">
+                                        <select id="receiverSelect" class="form-control">
                                             <option value="" disabled>Select receiver</option>
                                             @foreach($users as $user)
-                                                <option value="{{ $user->id }}" {{ $user->id == $selectedUser->id ? 'selected' : '' }}>Receiver: {{ $user->name }}</option>
+                                                <option value="{{ $user->id }}" {{ $user->id == $selectedReceiver->id ? 'selected' : '' }}>Receiver: {{ $user->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -88,5 +88,14 @@
             @yield('content')
         </main>
     </div>
+
+    <script>
+        document.getElementById('receiverSelect').addEventListener('change', function() {
+            const selectedReceiverId = this.value;
+            if (selectedReceiverId) {
+                window.location.href = '/chat?selected_receiver_id=' + selectedReceiverId;
+            }
+        });
+    </script>
 </body>
 </html>

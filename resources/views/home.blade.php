@@ -4,7 +4,7 @@
     <div class="container">
         <div id="main"
              data-loggedInUser="{{ json_encode($loggedInUser) }}"
-             data-selectedUser="{{ json_encode($selectedUser) }}"
+             data-selectedReceiver="{{ json_encode($selectedReceiver) }}"
              data-messages="{{ json_encode($messages) }}">
         </div>
     </div>

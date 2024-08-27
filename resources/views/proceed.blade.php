@@ -5,8 +5,8 @@
         <h1>Welcome to the Chat Application</h1>
 
         <div class="form-group">
-            <label for="userSelect">Select User to Chat With:</label>
-            <select id="userSelect" class="form-control">
+            <label for="receiverSelect">Select User to Chat With:</label>
+            <select id="receiverSelect" class="form-control">
                 <option value="" disabled selected>Select user...</option>
                 @foreach($users as $user)
                     <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -20,13 +20,13 @@
 
     <script>
         document.getElementById('proceedToChat').addEventListener('click', function() {
-            const selectedUserId = document.getElementById('userSelect').value;
-            if (!selectedUserId) {
+            const selectedReceiverId = document.getElementById('receiverSelect').value;
+            if (!selectedReceiverId) {
                 alert('Please select a user!');
                 return;
             }
 
-            window.location.href = "{{ url('/chat') }}?selected_user_id=" + selectedUserId;
+            window.location.href = "{{ url('/chat') }}?selected_receiver_id=" + selectedReceiverId;
         });
     </script>
 @endsection
