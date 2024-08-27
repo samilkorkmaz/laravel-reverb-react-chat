@@ -50,15 +50,14 @@
                                 </li>
                             @endif
                         @else
+                            <!-- Chat Window -->
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
+                                    Sender: {{ Auth::user()->name }}
                                 </a>
-
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                    <a class="dropdown-item" href="#"
+                                       onclick="return document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
@@ -67,6 +66,18 @@
                                     </form>
                                 </div>
                             </li>
+                            @if(isset($selectedUser))
+                                <li class="nav-item dropdown">
+                                    <div class="form-group">
+                                        <select id="userSelect" class="form-control">
+                                            <option value="" disabled>Select receiver</option>
+                                            @foreach($users as $user)
+                                                <option value="{{ $user->id }}" {{ $user->id == $selectedUser->id ? 'selected' : '' }}>Receiver: {{ $user->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </li>
+                            @endif
                         @endguest
                     </ul>
                 </div>

@@ -25,6 +25,9 @@ class HomeController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index(Request $request) {
+        // Fetch all users except the currently logged-in user
+        $users = User::where('id', '!=', Auth::id())->get();
+
         // Get the logged-in user ID
         $logedInUserId = Auth::id();
 
@@ -48,7 +51,7 @@ class HomeController extends Controller {
             ->get();
 
         // Pass the messages to the view
-        return view('home', compact('loggedInUser', 'selectedUser', 'messages'));
+        return view('home', compact('loggedInUser', 'selectedUser', 'messages', 'users'));
     }
 
     public function proceed() {
