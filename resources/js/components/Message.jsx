@@ -7,11 +7,10 @@ const Message = ({ loggedInUserId, message }) => {
         //console.log("message.sender.id:", message.sender.id, "message.user_id:", message.user_id, "message.to_id:", message.to_id);
     }, [message]);
 
-    //console.log("message", message);
     let date;
     const isNewlyCreatedMessage = ('time' in message); // Existing messages don't have time field, only new messages (created in app/Jobs/SendMessage.php) have time
     if (isNewlyCreatedMessage) {
-        //console.log("New message");
+        //console.log("Message.jsx, new message");
         date = new Date(message.time);
         message.sender = {}; // Create field
         message.sender.id = message.user_id;
@@ -19,7 +18,7 @@ const Message = ({ loggedInUserId, message }) => {
         message.recipient = {}; // Create field
         message.recipient.name = message.receiverName;
     } else {
-        //console.log("existing message:", message.updated_at);
+        //console.log("Message.jsx, existing message:", message);
         date = new Date(message.updated_at);
     }
     //console.log("date:", date);

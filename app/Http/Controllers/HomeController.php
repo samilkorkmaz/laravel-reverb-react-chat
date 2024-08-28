@@ -36,21 +36,34 @@ class HomeController extends Controller {
 
         // Get the user ID from the query parameter
         $selectedReceiverId = $request->query('selected_receiver_id'); // e.g. http://127.0.0.1:8000/chat?selected_receiver_id=2
-        $selectedReceiver = User::find($selectedReceiverId);
+        $everybodyId = 0;
+        if ($selectedReceiverId == $everybodyId) { // Will be sending message to everybody
+            $selectedReceiver = (object)[ // Convert the array to an object so that you can access the 'id' using the -> operator
+                'id' => $everybodyId,
+                'name' => 'Everybody'
+            ];
+            // Fetch messages sent to everybody
+            $messages = Message::where('to_id', $selectedReceiverId)->get(); // Load all messages sent to everybody
+            foreach ($messages as $message) { // Note that using  "->with(['sender', 'recipient'])->get()" above would only load message between loggedInUser and everybody. We want messages to everybody, irrespective of loggedInUser
+                $message->sender = User::find($message->user_id);
+                $message->recipient = User::find($message->to_id);
+            }
+        } else {
+            $selectedReceiver = User::find($selectedReceiverId);
 
-        // Fetch messages between the logged-in user and the selected user
-        $messages = Message::where(function($query) use ($logedInUserId, $selectedReceiverId) {
-            $query->where('user_id', $logedInUserId)
-                ->where('to_id', $selectedReceiverId);
-        })
-            ->orWhere(function($query) use ($logedInUserId, $selectedReceiverId) {
-                $query->where('user_id', $selectedReceiverId)
-                    ->where('to_id', $logedInUserId);
-            })
-            ->with(['sender', 'recipient']) // Eager load both sender and recipient relationships
-            ->get();
+            // Fetch messages between the logged-in user and the selected user
+            $messages = Message::where(function ($query) use ($logedInUserId, $selectedReceiverId) {
+                $query->where([
+                    ['user_id', $logedInUserId],
+                    ['to_id', $selectedReceiverId]
+                ])->orWhere([
+                    ['user_id', $selectedReceiverId],
+                    ['to_id', $logedInUserId]
+                ]);
+            })->with(['sender', 'recipient']) // Eager load both sender and recipient relationships
+              ->get();
+        }
 
-        // Pass the messages to the view
         return view('home', compact('loggedInUser', 'selectedReceiver', 'messages', 'users'));
     }
 

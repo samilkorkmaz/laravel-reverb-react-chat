@@ -9,7 +9,9 @@ const ChatBox = ({ rootUrl }) => {
     // Extract data from the DOM elements
     const sendingUser = JSON.parse(mainElement.getAttribute('data-loggedInUser'));
     const receivingUser = JSON.parse(mainElement.getAttribute('data-selectedReceiver'));
+    //console.log("sendingUser:", sendingUser, "receivingUser:", receivingUser);
     const initialMessages = JSON.parse(mainElement.getAttribute('data-messages'));
+    //console.log("initialMessages:", initialMessages);
 
 
     //const webSocketChannel = `channel_for_everyone`;
@@ -21,7 +23,7 @@ const ChatBox = ({ rootUrl }) => {
     const [messages, setMessages] = useState(initialMessages); // Initialize with messages passed from the view
     const scroll = useRef();
     //console.log(user);
-    //console.log(messages);
+    //console.log('ChatBox', messages);
 
     const scrollToBottom = () => {
         //console.log("scrollToBottom");
@@ -57,7 +59,7 @@ const ChatBox = ({ rootUrl }) => {
                     <div className="card-body" style={{height: "500px", overflowY: "auto"}}>
                         {messages?.map((message, index) => {
                             //console.log(`Rendering message ${index + 1}:`, message);
-                            //console.log(`user.name: ${user.name}`);
+                            //console.log(`user.name: ${sendingUser.name}`);
                             return (
                                 <Message key={message.id}
                                          loggedInUserId={sendingUser.id}

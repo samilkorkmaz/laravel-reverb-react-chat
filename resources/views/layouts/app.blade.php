@@ -51,6 +51,7 @@
                             @endif
                         @else
                             <!-- Chat Window -->
+                            <!-- Top right bar items -->
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     Sender: {{ Auth::user()->name }}
@@ -90,12 +91,15 @@
     </div>
 
     <script>
-        document.getElementById('receiverSelect').addEventListener('change', function() {
-            const selectedReceiverId = this.value;
-            if (selectedReceiverId) {
-                window.location.href = '/chat?selected_receiver_id=' + selectedReceiverId;
-            }
-        });
+        const receiverSelect = document.getElementById('receiverSelect');
+        if (receiverSelect) {
+            receiverSelect.addEventListener('change', function() {
+                const selectedReceiverId = this.value;
+                if (selectedReceiverId) {
+                    window.location.href = '/chat?selected_receiver_id=' + selectedReceiverId;
+                }
+            });
+        }
     </script>
 </body>
 </html>

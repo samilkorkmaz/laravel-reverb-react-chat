@@ -5,11 +5,11 @@
         <h1>Welcome to the Chat Application</h1>
 
         <div class="form-group">
-            <label for="receiverSelect">Select User to Chat With:</label>
-            <select id="receiverSelect" class="form-control">
-                <option value="" disabled selected>Select user...</option>
+            <label for="receiverSelectProceed">Select User to Chat With:</label>
+            <select id="receiverSelectProceed" class="form-control">
+                <option value="" disabled selected>Select receiver...</option>
                 @foreach($users as $user)
-                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    <option value="{{ $user->id }}">Receiver: {{ $user->name }}</option>
                 @endforeach
             </select>
         </div>
@@ -20,7 +20,7 @@
 
     <script>
         document.getElementById('proceedToChat').addEventListener('click', function() {
-            const selectedReceiverId = document.getElementById('receiverSelect').value;
+            const selectedReceiverId = document.getElementById('receiverSelectProceed').value;
             if (!selectedReceiverId) {
                 alert('Please select a user!');
                 return;
