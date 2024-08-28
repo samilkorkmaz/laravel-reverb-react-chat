@@ -60,7 +60,7 @@ class HomeController extends Controller {
                     ['user_id', $selectedReceiverId],
                     ['to_id', $logedInUserId]
                 ]);
-            })->with(['sender', 'recipient']) // Eager load both sender and recipient relationships
+            })->with(['sender', 'recipient']) // Eager load both sender and recipient relationships, i.e. messages between the loggedInUser and selectedReceiver
               ->get();
         }
 
