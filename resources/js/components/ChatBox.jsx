@@ -13,11 +13,14 @@ const ChatBox = ({ rootUrl }) => {
     const initialMessages = JSON.parse(mainElement.getAttribute('data-messages'));
     //console.log("initialMessages:", initialMessages);
 
-
-    //const webSocketChannel = `channel_for_everyone`;
-    const userIds = [sendingUser.id, receivingUser.id];
-    userIds.sort();
-    const webSocketChannel =  `channelBetweenUsers.${userIds[0]}.${userIds[1]}`;
+    let webSocketChannel;
+    if (receivingUser.id === 0) { // Message is sent to everybody
+        webSocketChannel = `channel_for_everyone`;
+    } else {
+        const userIds = [sendingUser.id, receivingUser.id];
+        userIds.sort();
+        webSocketChannel =  `channelBetweenUsers.${userIds[0]}.${userIds[1]}`;
+    }
     //console.log(`ChatBox.jsx webSocketChannel: ${webSocketChannel}`);
 
     const [messages, setMessages] = useState(initialMessages); // Initialize with messages passed from the view
