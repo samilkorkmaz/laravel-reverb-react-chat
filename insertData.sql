@@ -1,5 +1,5 @@
 -- Insert data into sqlite database tables
--- Create tables with php artisan migrate
+-- Create tables with first editing .env file to use sqlite and then running php artisan migrate
 /*CREATE TABLE cache (
   key TEXT NOT NULL PRIMARY KEY,
   value TEXT NOT NULL,
@@ -114,13 +114,6 @@ INSERT INTO messages (id, user_id, to_id, text, created_at, updated_at) VALUES
 (15, 1, 2, 'from 1 to 2', '2024-07-28 03:22:53', '2024-07-28 03:22:53'),
 (16, 1, 3, 'from 1 to 3', '2024-07-28 03:23:09', '2024-07-28 03:23:09'),
 (17, 1, 0, 'from 1 to everybody', '2024-08-28 17:00:05', '2024-08-28 17:00:08');
-
-INSERT INTO migrations (id, migration, batch) VALUES
-(1, '0001_01_01_000000_create_users_table', 1),
-(2, '0001_01_01_000001_create_cache_table', 1),
-(3, '0001_01_01_000002_create_jobs_table', 1),
-(4, '2024_03_25_000831_create_messages_table', 1),
-(5, '2024_07_27_091541_add_to_id_to_messages_table', 2);
 
 INSERT INTO users (id, name, email, email_verified_at, password, remember_token, created_at, updated_at) VALUES
 (0, 'Everybody', 'null', NULL, '1', NULL, NULL, NULL),
