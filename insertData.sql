@@ -116,7 +116,7 @@ INSERT INTO messages (id, user_id, to_id, text, created_at, updated_at) VALUES
 (17, 1, 0, 'from 1 to everybody', '2024-08-28 17:00:05', '2024-08-28 17:00:08');
 
 INSERT INTO users (id, name, email, email_verified_at, password, remember_token, created_at, updated_at) VALUES
-(0, 'Everybody', 'null', NULL, '1', NULL, NULL, NULL),
+(0, 'Everyone', 'null', NULL, '1', NULL, NULL, NULL),
 (1, 's1', 's1@g.com', NULL, '$2y$12$J01xqqniewNHouHWIEI.3OIYAm8MeBnSzaMwEYt1yeQnWMLBfq5ya', NULL, '2024-07-27 03:59:58', '2024-07-27 03:59:58'),
 (2, 's2', 's2@g.com', NULL, '$2y$12$Ut0i2y39OfKnC2gLLPGXAOsuRN0Se916o7E7Iol2jF5oN3W6yEBSm', NULL, '2024-07-27 04:03:14', '2024-07-27 04:03:14'),
 (3, 's3', 's3@g.com', NULL, '$2y$12$fz9HcPzWcKDmIzhnNcvyF.LrKc4jeECl9LQGjcPCpIcNnUY6WVhFS', NULL, '2024-07-28 03:18:46', '2024-07-28 03:18:46');
