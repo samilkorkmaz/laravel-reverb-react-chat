@@ -13,13 +13,12 @@ const ChatBox = ({ rootUrl }) => {
     const initialMessages = JSON.parse(mainElement.getAttribute('data-messages'));
     //console.log("initialMessages:", initialMessages);
 
-    let webSocketChannel;
-    if (receivingUser.id === 0) { // Message is sent to everybody
-        webSocketChannel = `channel_for_everyone`;
-    } else {
+    const webSocketChannelEveryone = `channel_for_everyone`;
+    let webSocketChannelBetweenUsers;
+    if (receivingUser.id !== 0) { // Message is not sent to everyone but from one user to another
         const userIds = [sendingUser.id, receivingUser.id];
         userIds.sort();
-        webSocketChannel =  `channelBetweenUsers.${userIds[0]}.${userIds[1]}`;
+        webSocketChannelBetweenUsers =  `channelBetweenUsers.${userIds[0]}.${userIds[1]}`;
     }
     //console.log(`ChatBox.jsx webSocketChannel: ${webSocketChannel}`);
 
@@ -33,9 +32,20 @@ const ChatBox = ({ rootUrl }) => {
         scroll.current.scrollIntoView({ behavior: "smooth" });
     };
 
-    const connectWebSocket = () => {
+    const connectWebSocketBetweenUsers = () => {
         //console.log("connectWebSocket");
-        window.Echo.private(webSocketChannel)
+        window.Echo.private(webSocketChannelBetweenUsers)
+            .listen('GotMessage', (e) => {
+                //console.log("GotMessage");
+                // Append the new message to the state
+                setMessages(prevMessages => [...prevMessages, e.message]);
+                setTimeout(scrollToBottom, 0);
+            });
+    }
+
+    const connectWebSocketEveryone = () => {
+        //console.log("connectWebSocket");
+        window.Echo.private(webSocketChannelEveryone)
             .listen('GotMessage', (e) => {
                 //console.log("GotMessage");
                 // Append the new message to the state
@@ -46,11 +56,13 @@ const ChatBox = ({ rootUrl }) => {
 
     useEffect(() => {
         //console.log("useEffect");
-        connectWebSocket();
+        connectWebSocketBetweenUsers();
+        connectWebSocketEveryone();
         scrollToBottom();
 
         return () => {
-            window.Echo.leave(webSocketChannel);
+            window.Echo.leave(webSocketChannelEveryone);
+            window.Echo.leave(webSocketChannelBetweenUsers);
         }
     }, []);
 
