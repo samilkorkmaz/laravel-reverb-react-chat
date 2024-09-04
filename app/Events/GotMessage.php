@@ -27,6 +27,7 @@ class GotMessage implements ShouldBroadcast
 
     /**
      * Get the channels the event should broadcast on.
+     * After the constructor is executed, Laravel's broadcasting system will call the broadcastOn() method.
      *
      * @return array<int, \Illuminate\Broadcasting\Channel>
      */

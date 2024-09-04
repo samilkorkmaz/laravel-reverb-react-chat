@@ -25,13 +25,14 @@ class SendMessage implements ShouldQueue
     }
 
     /**
-     * Execute the job.
+     * Executed when the job is processed by a queue worker.
      */
     public function handle(): void
     {
         $senderName = User::where('id', $this->message->user_id)->value('name');
         $receiverName = User::where('id', $this->message->to_id)->value('name');
 
+        // dispatch() first calls the GotMessage constructor, then Laravel's broadcasting system will call the GotMessage::broadcastOn() method.
         GotMessage::dispatch([
             'id' => $this->message->id,
             'user_id' => $this->message->user_id,

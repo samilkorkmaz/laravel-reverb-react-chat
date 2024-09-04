@@ -93,7 +93,7 @@ class HomeController extends Controller {
             'text' => $request->get('text'),
         ]);
 
-        SendMessage::dispatch($message);
+        SendMessage::dispatch($message); // dispatches job to queue
 
         return response()->json([
             'success' => true,
