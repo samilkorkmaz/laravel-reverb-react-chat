@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 
 class Message extends Model
 {
-    public $table = 'messages';
+    protected $table = 'messages';
 
     protected $fillable = [
         'id',
